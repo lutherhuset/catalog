@@ -1,0 +1,53 @@
+<html>
+<head>
+	<link rel="stylesheet" 
+		href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" 
+		integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" 
+		crossorigin="anonymous">
+	<link rel=stylesheet 
+		type=text/css 
+		href="{{ url_for('static', filename='styles.css') }}">
+</head>
+
+<body>
+
+		<nav class="navbar navbar-dark bg-dark justify-content-between">
+				<a class="navbar-brand" href="/">GR8EST</a>
+				<form class="form-inline">
+					<a class="btn btn-outline-success my-2 my-sm-0" 
+						href="/gdisconnect" role="button">Logout</a>
+				</form>
+		</nav>
+<center>
+<h1>Welcome to GR8EST</h1>
+<h1>We are the go to catalog of legends within different sports!</h1>
+
+
+{% with messages = get_flashed_messages() %}
+	{% if messages %}
+		{% for message in messages %}
+			<h2>{{ message }}</h2>
+		{% endfor %}
+	{% endif %}
+{% endwith %}
+
+<div class = 'pane'>
+		<a class="btn btn-info my-2 my-sm-0" href="/activity/new" role="button">Add New Activity</a>
+{% for activity in activity %}
+    <div>
+		<a href = "{{url_for('showLegend', activity_id = activity.id)}}">
+			<h3>{{activity.name}}</h3></a>
+		<a class="btn btn-warning my-2 my-sm-0" 
+			href = "{{url_for('editActivity', activity_id = activity.id)}}"
+			role="button">Edit Activity</a>
+		<a class="btn btn-danger my-2 my-sm-0" 
+			href = "{{url_for('deleteActivity', activity_id = activity.id)}}"
+			role="button">Delete Activity</a>
+    </div>
+{% endfor %}
+
+</div>
+</center>
+</body>
+
+</html>

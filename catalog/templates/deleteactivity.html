@@ -1,0 +1,32 @@
+<html>
+<head>
+    <link rel="stylesheet" 
+        href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+        crossorigin="anonymous">
+    <link rel=stylesheet
+        type=text/css
+        href="{{ url_for('static', filename='styles.css') }}">
+</head>
+
+<body>
+
+        <nav class="navbar navbar-dark bg-dark justify-content-between">
+				<a class="navbar-brand" href="/">GR8EST</a>
+				<form class="form-inline">
+                    <a class="btn btn-outline-success my-2 my-sm-0"
+                        href="/gdisconnect" role="button">Logout</a>
+				</form>
+		</nav>
+<div class="pane">
+    <h1> Are you sure you want to delete {{activityToDelete.name}}? </h1>
+
+    <form action="{{ url_for('deleteActivity',
+        activity_id = activityToDelete.id)}}" method = 'post'>
+        <input type='submit', value = 'Delete'>
+    </form>
+
+    <a href = '{{url_for('showLegend', activity_id = activity_id)}}'>Cancel</a>
+</div>
+</body>
+</html>

@@ -1,0 +1,45 @@
+<html>
+<head>
+	<link rel="stylesheet"
+		href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+		integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+		crossorigin="anonymous">
+	<link rel=stylesheet
+		type=text/css
+		href="{{ url_for('static', filename='styles.css') }}">
+</head>
+
+<body>
+
+		<nav class="navbar navbar-dark bg-dark justify-content-between">
+				<a class="navbar-brand" href="/">GR8EST</a>
+				<form class="form-inline">
+					<a class="btn btn-outline-success my-2 my-sm-0"
+						href="/gdisconnect" role="button">Logout</a>
+				</form>
+		</nav>
+<center>
+<h1>New Legend</h1>
+</center>
+
+<div class = 'pane'>
+<form action="{{ url_for('newLegend', activity_id=activity_id )}}" method = 'post'>
+
+<dl>
+	<dt>Name:</dt>
+		<dd><input type ='text' size='30' name='name'></dd>
+	<dt>Description:</dt>
+		<dd><textarea name = 'description' rows='5' cols='40' > </textarea></dd>
+	<dt>Salary:</dt>
+		<dd><input type = 'text' size = '15' name='salary'></dd>
+	<dt>Stats:</dt>
+		<dd><input type ='text' size = '250' name='stats'></dd>
+</dl>
+
+<input type='submit' value='Create'>
+
+</form>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,72 @@
+<html>
+<head>
+	<link rel="stylesheet" 
+		href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+		integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+		crossorigin="anonymous">
+	<link rel=stylesheet
+		type=text/css
+		href="{{ url_for('static', filename='styles.css') }}">
+</head>
+
+<body>
+
+		<nav class="navbar navbar-dark bg-dark justify-content-between">
+				<a class="navbar-brand" href="/">GR8EST</a>
+				<form class="form-inline">
+                        <a class="btn btn-primary" href="/login" role="button">Login</a>
+				</form>
+		</nav>
+
+	<center><h1>Legends</h1></center>
+
+	{% with messages = get_flashed_messages() %}
+		{% if messages %}
+			{% for message in messages %}
+				<h2>{{ message }}</h2>
+			{% endfor %}
+		{% endif %}
+	{% endwith %}
+
+	<div class = 'pane'>
+		<div class = 'header'>
+		<h1>{{ activity.name }}</h1>
+	</div>
+
+<div class = 'flash'>
+		      {% with messages = get_flashed_messages() %}
+      {% if messages %}
+          
+        <ul>
+        {% for message in messages %}
+            <li> <strong> {{ message }} </strong> </li>
+        {% endfor %}
+        </ul>
+        {% endif %}
+    {% endwith %}
+
+</div>
+
+	{% for l in legends %}
+    <div class = 'nameAndSalary'>
+		<span class = 'name'><p>{{l.name}}</p></span>
+
+		<span class = 'salary'>
+			<p>{{l.salary}} </p>
+		</span>
+	</div>
+
+	<div class = 'description'>
+		<p>{{l.description}}</p>
+	</div>
+
+	{% endfor %}
+
+</div>
+</div>
+	</body>
+
+
+
+
+</html>
