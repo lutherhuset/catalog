@@ -1,6 +1,7 @@
 ---PROJECT DESCRIPTION---
 The GR8EST app is a catalog app that stores information for the legends of different sports.
 This project utilizes CRUD operations, Google Oauth, and flask.
+Some starter code from Udacity was utilized in the early stages of this project.
 
 ---DEPENDENCIES/SETUP---
 To open this project you will need to download all the files from github at https://github.com/lutherhuset/catalog/
