@@ -214,6 +214,7 @@ def showActivities():
 
 @app.route('/activity/new/', methods=['GET', 'POST'])
 def newActivity():
+    activities = session.query(Activity).order_by(asc(Activity.name))
     if ('username' not in login_session):
         flash("You need to login to access that feature")
         return render_template('publicactivity.html', activity=activities)
@@ -232,6 +233,7 @@ def newActivity():
 
 @app.route('/activity/<int:activity_id>/edit/', methods=['GET', 'POST'])
 def editActivity(activity_id):
+    activities = session.query(Activity).order_by(asc(Activity.name))
     editedactivity = session.query(Activity).filter_by(id=activity_id).one()
     creator = getUserInfo(Activity.user_id)
     if ('username' not in login_session or
@@ -254,6 +256,7 @@ def editActivity(activity_id):
 
 @app.route('/activity/<int:activity_id>/delete/', methods=['GET', 'POST'])
 def deleteActivity(activity_id):
+    activities = session.query(Activity).order_by(asc(Activity.name))
     activityToDelete = session.query(Activity).filter_by(id=activity_id).one()
     creator = getUserInfo(Activity.user_id)
     if ('username' not in login_session or
@@ -294,6 +297,7 @@ def showLegend(activity_id):
 
 @app.route('/activity/<int:activity_id>/legend/new/', methods=['GET', 'POST'])
 def newLegend(activity_id):
+    activities = session.query(Activity).order_by(asc(Activity.name))
     activity = session.query(Activity).filter_by(id=activity_id).one()
     if ('username' not in login_session):
         flash("You need to login to access that feature")
@@ -318,7 +322,7 @@ def newLegend(activity_id):
 @app.route('/activity/<int:activity_id>/legend/<int:legend_id>/edit',
            methods=['GET', 'POST'])
 def editLegend(activity_id, legend_id):
-
+    activities = session.query(Activity).order_by(asc(Activity.name))
     editedLegend = session.query(Legend).filter_by(id=legend_id).one()
     activity = session.query(Activity).filter_by(id=activity_id).one()
     creator = getUserInfo(Legend.user_id)
@@ -351,6 +355,7 @@ def editLegend(activity_id, legend_id):
 @app.route('/activity/<int:activity_id>/legend/<int:legend_id>/delete',
            methods=['GET', 'POST'])
 def deleteLegend(activity_id, legend_id):
+    activities = session.query(Activity).order_by(asc(Activity.name))
     activity = session.query(Activity).filter_by(id=activity_id).one()
     legendToDelete = session.query(Legend).filter_by(id=legend_id).one()
     creator = getUserInfo(Legend.user_id)
