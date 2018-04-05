@@ -21,6 +21,7 @@ class Activity(Base):
     name = Column(String(250), nullable=False)
     user_id = Column(Integer, ForeignKey('user.id'))
     user = relationship(User)
+    legends = relationship("Legend", cascade="save-update, merge, delete")
 
     @property
     def serialize(self):
@@ -61,3 +62,4 @@ engine = create_engine('sqlite:///gr8est.db')
  
 
 Base.metadata.create_all(engine)
+
