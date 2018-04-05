@@ -240,16 +240,22 @@ def newActivity():
 @app.route('/activity/<int:activity_id>/edit/', methods=['GET', 'POST'])
 @login_required
 def editActivity(activity_id):
+    activities = session.query(Activity).order_by(asc(Activity.name))
     editedactivity = session.query(Activity).filter_by(id=activity_id).one()
     creator = getUserInfo(Activity.user_id)
-    if request.method == 'POST':
-        if request.form['name']:
-            editedactivity.name = request.form['name']
-            flash('activity Successfully Edited %s' % editedactivity.name)
-            return redirect(url_for('showActivities'))
+    if ('username' not in login_session or
+        creator.id != login_session['user_id']):
+            flash("You do not have access to make that change")
+            return render_template('publicactivity.html', activity=activities)
     else:
-        return render_template('editactivity.html',
-                               activity=editedactivity)
+        if request.method == 'POST':
+            if request.form['name']:
+                editedactivity.name = request.form['name']
+                flash('activity Successfully Edited %s' % editedactivity.name)
+                return redirect(url_for('showActivities'))
+        else:
+            return render_template('editactivity.html',
+                                   activity=editedactivity)
 
 
 # Delete an activity
@@ -258,17 +264,23 @@ def editActivity(activity_id):
 @app.route('/activity/<int:activity_id>/delete/', methods=['GET', 'POST'])
 @login_required
 def deleteActivity(activity_id):
+    activities = session.query(Activity).order_by(asc(Activity.name))
     activityToDelete = session.query(Activity).filter_by(id=activity_id).one()
     creator = getUserInfo(Activity.user_id)
-    if request.method == 'POST':
-        session.delete(activityToDelete)
-        flash('%s Successfully Deleted' % activityToDelete.name)
-        session.commit()
-        return redirect(url_for('showActivities'))
+    if ('username' not in login_session or
+        creator.id != login_session['user_id']):
+            flash("You do not have access to make that change")
+            return render_template('publicactivity.html', activity=activities)
     else:
-        return render_template('deleteactivity.html',
-                               activityToDelete=activityToDelete,
-                               activity_id=activity_id)
+        if request.method == 'POST':
+            session.delete(activityToDelete)
+            flash('%s Successfully Deleted' % activityToDelete.name)
+            session.commit()
+            return redirect(url_for('showActivities'))
+        else:
+            return render_template('deleteactivity.html',
+                                   activityToDelete=activityToDelete,
+                                   activity_id=activity_id)
 
 # Show an activity legend list
 
@@ -315,25 +327,31 @@ def newLegend(activity_id):
            methods=['GET', 'POST'])
 @login_required
 def editLegend(activity_id, legend_id):
+    activities = session.query(Activity).order_by(asc(Activity.name))
     editedLegend = session.query(Legend).filter_by(id=legend_id).one()
     activity = session.query(Activity).filter_by(id=activity_id).one()
     creator = getUserInfo(Legend.user_id)
-    if request.method == 'POST':
-        if request.form['name']:
-            editedLegend.name = request.form['name']
-        if request.form['description']:
-            editedLegend.description = request.form['description']
-        if request.form['salary']:
-            editedLegend.salary = request.form['salary']
-        if request.form['stats']:
-            editedLegend.stats = request.form['stats']
-        session.add(editedLegend)
-        session.commit()
-        flash('Legend Successfully Edited')
-        return redirect(url_for('showLegend', activity_id=activity_id))
+    if ('username' not in login_session or
+        creator.id != login_session['user_id']):
+            flash("You do not have access to make that change")
+            return render_template('publicactivity.html', activity=activities)
     else:
-        return render_template('editlegend.html', activity_id=activity_id,
-                               legend_id=legend_id, legend=editedLegend)
+        if request.method == 'POST':
+            if request.form['name']:
+                editedLegend.name = request.form['name']
+            if request.form['description']:
+                editedLegend.description = request.form['description']
+            if request.form['salary']:
+                editedLegend.salary = request.form['salary']
+            if request.form['stats']:
+                editedLegend.stats = request.form['stats']
+            session.add(editedLegend)
+            session.commit()
+            flash('Legend Successfully Edited')
+            return redirect(url_for('showLegend', activity_id=activity_id))
+        else:
+            return render_template('editlegend.html', activity_id=activity_id,
+                                   legend_id=legend_id, legend=editedLegend)
 
 
 # Delete a legend
@@ -343,18 +361,24 @@ def editLegend(activity_id, legend_id):
            methods=['GET', 'POST'])
 @login_required
 def deleteLegend(activity_id, legend_id):
+    activities = session.query(Activity).order_by(asc(Activity.name))
     activity = session.query(Activity).filter_by(id=activity_id).one()
     legendToDelete = session.query(Legend).filter_by(id=legend_id).one()
     creator = getUserInfo(Legend.user_id)
-    if request.method == 'POST':
-        session.delete(legendToDelete)
-        session.commit()
-        flash('Legend Item Successfully Deleted')
-        return redirect(url_for('showLegend', activity_id=activity_id))
+    if ('username' not in login_session or
+        creator.id != login_session['user_id']):
+            flash("You do not have access to make that change")
+            return render_template('publicactivity.html', activity=activities)
     else:
-        return render_template('deletelegend.html', legend=legendToDelete,
-                               activity_id=activity_id,
-                               legend_id=legend_id)
+        if request.method == 'POST':
+            session.delete(legendToDelete)
+            session.commit()
+            flash('Legend Item Successfully Deleted')
+            return redirect(url_for('showLegend', activity_id=activity_id))
+        else:
+            return render_template('deletelegend.html', legend=legendToDelete,
+                                   activity_id=activity_id,
+                                   legend_id=legend_id)
 
 if __name__ == '__main__':
     app.secret_key = 'super_secret_key'
